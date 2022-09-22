@@ -10,8 +10,8 @@ def ansatz(n_species, rxn_types=None):
     for i in range(n_species):
         species.append('S' + str(i))
 
-    if rxn_types is None:
-        rxn_types = ['syn', 'deg', 'uni-uni', 'bi-uni', 'uni-bi']
+    if not rxn_types:
+        rxn_types = ['syn', 'deg', 'uni-uni', 'bi-uni', 'uni-bi', 'bi-bi']
 
     bi_species = None
     if 'bi-uni' in rxn_types or 'uni-bi' in rxn_types or 'bi-bi' in rxn_types:
