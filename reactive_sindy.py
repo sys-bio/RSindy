@@ -14,13 +14,6 @@ matplotlib.use('TkAgg')
 # todo: allow for variations of the ElasticNet algorithm
 def rsindy(antstring, t_span, steps, rounding=2):
 
-    # if not rxn_types:
-    #     rxn_types = ['syn', 'deg', 'uni-uni', 'bi-uni', 'uni-bi', 'bi-bi']
-
-    print(antstring)
-    print(t_span)
-    print(steps)
-    # quit()
     ant_rxns = []
     with open(antstring, 'r') as antfile:
         lines = antfile.readlines()

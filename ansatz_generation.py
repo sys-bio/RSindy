@@ -13,16 +13,23 @@ import sys
 matplotlib.use('TkAgg')
 
 
+# sys.argv[1]: model name
+# sys.argv[2]: number of ansatz reactions per set
+# sys.argv[3]: number of ansatz reaction sets
+
 # todo: allow for variations of the ElasticNet algorithm
 def generate_ansatz(antstring, anz_rxns_num, anz_num, rxn_types=None):
 
     if not rxn_types:
         rxn_types = ['syn', 'deg', 'uni-uni', 'bi-uni', 'uni-bi', 'bi-bi']
 
+    model_str = ''
+
     ant_rxns = []
     with open(antstring, 'r') as antfile:
         lines = antfile.readlines()
         for line in lines:
+            model_str += line
             if '->' in line:
                 line_split = line.split(':')[1].split(';')[0].strip()
                 line_split = line_split.split('->')
@@ -52,12 +59,16 @@ def generate_ansatz(antstring, anz_rxns_num, anz_num, rxn_types=None):
 
     r = te.loada(antstring)
     cols = r.getFloatingSpeciesIds() + r.getBoundarySpeciesIds()
-
     species_names = deepcopy(cols)
 
     ansatz_sets = []
     rates_sets = []
+    index = 0
     while len(ansatz_sets) < anz_num:
+        model_name = antstring[:-4] + '_' + str(index) + '.txt'
+        print(model_name)
+        with open(model_name, 'w') as new_model:
+            new_model.write(model_str)
         ansatz_rxns, rates = ansatz(len(species_names), rxn_types, ant_rxns, anz_rxns_num)
         if ansatz_rxns not in ansatz_sets:
             ansatz_sets.append(ansatz_rxns)
